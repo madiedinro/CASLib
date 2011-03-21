@@ -12,6 +12,7 @@ class CommonService extends SoapClient
 
 /**
  * :operationDescription
+ * @param xsd:int $campaignId
  * @return xsd:boolean
  */
 public function delCampaign($campaignId)
@@ -24,6 +25,7 @@ public function delCampaign($campaignId)
 
 /**
  * :operationDescription
+ * @param xsd:int $campaignId
  * @return tns:Campaign
  */
 public function getCampaign($campaignId)
@@ -36,6 +38,8 @@ public function getCampaign($campaignId)
 
 /**
  * :operationDescription
+ * @param xsd:string $name
+ * @param xsd:string $type
  * @return tns:Campaign
  */
 public function addCampaign($name, $type)
@@ -48,6 +52,7 @@ public function addCampaign($name, $type)
 
 /**
  * :operationDescription
+ * @param tns:Campaign $campaign
  * @return tns:Campaign
  */
 public function updCampaign($campaign)
@@ -60,6 +65,7 @@ public function updCampaign($campaign)
 
 /**
  * :operationDescription
+ * @param tns:intArray $campaignIds
  * @return tns:CampaignArray
  */
 public function getCampaignsList($campaignIds)
@@ -72,6 +78,7 @@ public function getCampaignsList($campaignIds)
 
 /**
  * :operationDescription
+ * @param xsd:int $campaignId
  * @return tns:CampaignTarget
  */
 public function getCampaignTarget($campaignId)
@@ -84,6 +91,7 @@ public function getCampaignTarget($campaignId)
 
 /**
  * :operationDescription
+ * @param tns:CampaignTarget $campaignTarget
  * @return tns:Campaign
  */
 public function updCampaignTarget($campaignTarget)
@@ -96,6 +104,7 @@ public function updCampaignTarget($campaignTarget)
 
 /**
  * :operationDescription
+ * @param xsd:int $campaignId
  * @return tns:intArray
  */
 public function getCampaignPadTarget($campaignId)
@@ -108,6 +117,8 @@ public function getCampaignPadTarget($campaignId)
 
 /**
  * :operationDescription
+ * @param xsd:int $campaignId
+ * @param xsd:int $padId
  * @return xsd:boolean
  */
 public function addCampaignPadTarget($campaignId, $padId)
@@ -120,6 +131,8 @@ public function addCampaignPadTarget($campaignId, $padId)
 
 /**
  * :operationDescription
+ * @param xsd:int $campaignId
+ * @param xsd:int $padId
  * @return xsd:boolean
  */
 public function delCampaignPadTarget($campaignId, $padId)
@@ -132,6 +145,7 @@ public function delCampaignPadTarget($campaignId, $padId)
 
 /**
  * :operationDescription
+ * @param xsd:int $bannerId
  * @return xsd:boolean
  */
 public function delBanner($bannerId)
@@ -144,6 +158,7 @@ public function delBanner($bannerId)
 
 /**
  * :operationDescription
+ * @param xsd:int $bannerId
  * @return tns:Banner
  */
 public function getBanner($bannerId)
@@ -156,6 +171,7 @@ public function getBanner($bannerId)
 
 /**
  * :operationDescription
+ * @param tns:Banner $banner
  * @return tns:Banner
  */
 public function addBanner($banner)
@@ -168,6 +184,7 @@ public function addBanner($banner)
 
 /**
  * :operationDescription
+ * @param tns:Banner $banner
  * @return tns:Banner
  */
 public function updBanner($banner)
@@ -180,6 +197,9 @@ public function updBanner($banner)
 
 /**
  * :operationDescription
+ * @param xsd:int $campaignId
+ * @param tns:intArray $bannersIds
+ * @param xsd:boolean $withDeleted
  * @return tns:BannerArray
  */
 public function getBannersList($campaignId, $bannersIds, $withDeleted)
@@ -192,6 +212,7 @@ public function getBannersList($campaignId, $bannersIds, $withDeleted)
 
 /**
  * :operationDescription
+ * @param xsd:int $conditionId
  * @return xsd:boolean
  */
 public function delCondition($conditionId)
@@ -204,6 +225,7 @@ public function delCondition($conditionId)
 
 /**
  * :operationDescription
+ * @param xsd:int $conditionId
  * @return tns:Condition
  */
 public function getCondition($conditionId)
@@ -216,6 +238,7 @@ public function getCondition($conditionId)
 
 /**
  * :operationDescription
+ * @param tns:Condition $condition
  * @return tns:Condition
  */
 public function addCondition($condition)
@@ -228,6 +251,7 @@ public function addCondition($condition)
 
 /**
  * :operationDescription
+ * @param tns:Condition $condition
  * @return tns:Condition
  */
 public function updCondition($condition)
@@ -240,6 +264,7 @@ public function updCondition($condition)
 
 /**
  * :operationDescription
+ * @param tns:ConditionArray $newPricesList
  * @return tns:ConditionArray
  */
 public function updConditionsPrices($newPricesList)
@@ -252,6 +277,8 @@ public function updConditionsPrices($newPricesList)
 
 /**
  * :operationDescription
+ * @param xsd:int $bannerId
+ * @param tns:intArray $conditionsIds
  * @return tns:ConditionArray
  */
 public function getConditionsList($bannerId, $conditionsIds)
@@ -264,6 +291,9 @@ public function getConditionsList($bannerId, $conditionsIds)
 
 /**
  * :operationDescription
+ * @param tns:intArray $bannersIds
+ * @param tns:intArray $conditionsIds
+ * @param xsd:boolean $getPositionInfo
  * @return tns:ConditionArray
  */
 public function getConditions($bannersIds, $conditionsIds, $getPositionInfo)
@@ -276,6 +306,7 @@ public function getConditions($bannersIds, $conditionsIds, $getPositionInfo)
 
 /**
  * :operationDescription
+ * @param xsd:int $conditionId
  * @return tns:ConditionRate
  */
 public function getConditionRate($conditionId)
@@ -288,6 +319,8 @@ public function getConditionRate($conditionId)
 
 /**
  * :operationDescription
+ * @param tns:intArray $conditionsIds
+ * @param xsd:boolean $suspend
  * @return tns:ConditionArray
  */
 public function toggleConditions($conditionsIds, $suspend)
@@ -300,6 +333,10 @@ public function toggleConditions($conditionsIds, $suspend)
 
 /**
  * :operationDescription
+ * @param xsd:int $campaignId
+ * @param xsd:long $startTime
+ * @param xsd:long $endTime
+ * @param tns:StatsDetail $filter
  * @return tns:StatsDetailArray
  */
 public function getStatsDetail($campaignId, $startTime, $endTime, $filter)
@@ -312,6 +349,10 @@ public function getStatsDetail($campaignId, $startTime, $endTime, $filter)
 
 /**
  * :operationDescription
+ * @param xsd:int $campaignId
+ * @param xsd:long $startTime
+ * @param xsd:long $endTime
+ * @param tns:StatsCommon $filter
  * @return tns:StatsCommonArray
  */
 public function getStatsCommon($campaignId, $startTime, $endTime, $filter)
@@ -324,6 +365,10 @@ public function getStatsCommon($campaignId, $startTime, $endTime, $filter)
 
 /**
  * :operationDescription
+ * @param xsd:int $campaignId
+ * @param xsd:long $startTime
+ * @param xsd:long $endTime
+ * @param tns:StatsByDays $filter
  * @return tns:StatsByDaysArray
  */
 public function getStatsByDays($campaignId, $startTime, $endTime, $filter)
@@ -336,6 +381,10 @@ public function getStatsByDays($campaignId, $startTime, $endTime, $filter)
 
 /**
  * :operationDescription
+ * @param xsd:int $campaignId
+ * @param xsd:long $startTime
+ * @param xsd:long $endTime
+ * @param tns:StatsByPads $filter
  * @return tns:StatsByPadsArray
  */
 public function getStatsByPads($campaignId, $startTime, $endTime, $filter)
@@ -348,6 +397,10 @@ public function getStatsByPads($campaignId, $startTime, $endTime, $filter)
 
 /**
  * :operationDescription
+ * @param xsd:int $campaignId
+ * @param xsd:long $startTime
+ * @param xsd:long $endTime
+ * @param tns:StatsKeywords $filter
  * @return tns:StatsKeywordsArray
  */
 public function getStatsKeywords($campaignId, $startTime, $endTime, $filter)
@@ -360,6 +413,7 @@ public function getStatsKeywords($campaignId, $startTime, $endTime, $filter)
 
 /**
  * :operationDescription
+ * @param xsd:int $geoProfileId
  * @return tns:GeoProfile
  */
 public function getGeoProfile($geoProfileId)
@@ -372,6 +426,8 @@ public function getGeoProfile($geoProfileId)
 
 /**
  * :operationDescription
+ * @param xsd:string $name
+ * @param tns:intArray $regionIds
  * @return tns:GeoProfile
  */
 public function addGeoProfile($name, $regionIds)
@@ -384,6 +440,7 @@ public function addGeoProfile($name, $regionIds)
 
 /**
  * :operationDescription
+ * @param tns:GeoProfile $geoProfile
  * @return tns:GeoProfile
  */
 public function updGeoProfile($geoProfile)
@@ -396,6 +453,7 @@ public function updGeoProfile($geoProfile)
 
 /**
  * :operationDescription
+ * @param xsd:int $geoProfileId
  * @return xsd:boolean
  */
 public function delGeoProfile($geoProfileId)
@@ -408,6 +466,7 @@ public function delGeoProfile($geoProfileId)
 
 /**
  * :operationDescription
+
  * @return tns:GeoProfileArray
  */
 public function getGeoProfilesList()
@@ -420,6 +479,7 @@ public function getGeoProfilesList()
 
 /**
  * :operationDescription
+
  * @return tns:RegionArray
  */
 public function getRegions()
@@ -432,6 +492,7 @@ public function getRegions()
 
 /**
  * :operationDescription
+ * @param xsd:int $geoProfileId
  * @return tns:RegionArray
  */
 public function getGeoProfileRegions($geoProfileId)
@@ -444,6 +505,7 @@ public function getGeoProfileRegions($geoProfileId)
 
 /**
  * :operationDescription
+
  * @return tns:TrafficTypeArray
  */
 public function getTrafficTypes()
@@ -456,6 +518,11 @@ public function getTrafficTypes()
 
 /**
  * :operationDescription
+ * @param xsd:string $keywords
+ * @param xsd:int $regionId
+ * @param xsd:int $trafficTypeId
+ * @param xsd:int $limit
+ * @param xsd:int $geoProfileId
  * @return tns:PositionPriceArray
  */
 public function getPositionPrices($keywords, $regionId, $trafficTypeId, $limit, $geoProfileId)
@@ -468,6 +535,7 @@ public function getPositionPrices($keywords, $regionId, $trafficTypeId, $limit, 
 
 /**
  * :operationDescription
+ * @param tns:Banner $banner
  * @return xsd:boolean
  */
 public function addBannerImage($banner)
@@ -480,6 +548,7 @@ public function addBannerImage($banner)
 
 /**
  * :operationDescription
+ * @param tns:Banner $banner
  * @return xsd:boolean
  */
 public function delBannerImage($banner)
@@ -492,6 +561,7 @@ public function delBannerImage($banner)
 
 /**
  * :operationDescription
+ * @param tns:Banner $banner
  * @return xsd:boolean
  */
 public function updBannerImage($banner)
@@ -504,6 +574,9 @@ public function updBannerImage($banner)
 
 /**
  * :operationDescription
+ * @param xsd:string $login
+ * @param xsd:string $password
+ * @param xsd:string $clientLogin
  * @return xsd:boolean
  */
 public function auth($login, $password, $clientLogin)
@@ -516,6 +589,7 @@ public function auth($login, $password, $clientLogin)
 
 /**
  * :operationDescription
+
  * @return tns:UserProfile
  */
 public function getProfile()
@@ -528,6 +602,7 @@ public function getProfile()
 
 /**
  * :operationDescription
+
  * @return tns:AccountInfo
  */
 public function getAccountInfo()

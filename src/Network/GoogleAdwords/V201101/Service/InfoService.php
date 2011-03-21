@@ -12,6 +12,7 @@ class InfoService extends SoapClient
 
 /**
  * :operationDescription
+
  * @return InfoServiceGetResponse
  */
 public function get($selector)

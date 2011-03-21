@@ -12,6 +12,7 @@ class CommonService extends SoapClient
 
 /**
  * :operationDescription
+
  * @return xsd:int
  */
 public function GetVersion()
@@ -24,6 +25,7 @@ public function GetVersion()
 
 /**
  * :operationDescription
+
  * @return namesp1:ArrayOfClientInfo
  */
 public function GetClientsList()
@@ -36,6 +38,7 @@ public function GetClientsList()
 
 /**
  * :operationDescription
+ * @param namesp1:ShortClientInfo $params
  * @return namesp1:ArrayOfShortClientInfo
  */
 public function GetSubClients($params)
@@ -48,6 +51,7 @@ public function GetSubClients($params)
 
 /**
  * :operationDescription
+ * @param namesp1:AutoPriceInfo $params
  * @return namesp1:ArrayOfPhrasePriceInfo
  */
 public function SetAutoPrice($params)
@@ -60,6 +64,7 @@ public function SetAutoPrice($params)
 
 /**
  * :operationDescription
+ * @param xsd:int $params
  * @return xsd:int
  */
 public function DeleteReport($params)
@@ -72,6 +77,7 @@ public function DeleteReport($params)
 
 /**
  * :operationDescription
+ * @param namesp1:CampaignIDInfo $params
  * @return namesp1:CampaignInfo
  */
 public function GetCampaignParams($params)
@@ -84,6 +90,7 @@ public function GetCampaignParams($params)
 
 /**
  * :operationDescription
+ * @param xsd:int $params
  * @return xsd:int
  */
 public function DeleteForecastReport($params)
@@ -96,6 +103,7 @@ public function DeleteForecastReport($params)
 
 /**
  * :operationDescription
+ * @param namesp1:CampaignBidsInfo $params
  * @return xsd:int
  */
 public function ModerateBanners($params)
@@ -108,6 +116,7 @@ public function ModerateBanners($params)
 
 /**
  * :operationDescription
+ * @param namesp1:CampaignBidsInfo $params
  * @return xsd:int
  */
 public function StopBanners($params)
@@ -120,6 +129,7 @@ public function StopBanners($params)
 
 /**
  * :operationDescription
+ * @param namesp1:CampaignBidsInfo $params
  * @return xsd:int
  */
 public function ResumeBanners($params)
@@ -132,6 +142,7 @@ public function ResumeBanners($params)
 
 /**
  * :operationDescription
+ * @param namesp1:CampaignBidsInfo $params
  * @return xsd:int
  */
 public function ArchiveBanners($params)
@@ -144,6 +155,7 @@ public function ArchiveBanners($params)
 
 /**
  * :operationDescription
+ * @param namesp1:CampaignBidsInfo $params
  * @return xsd:int
  */
 public function UnArchiveBanners($params)
@@ -156,6 +168,7 @@ public function UnArchiveBanners($params)
 
 /**
  * :operationDescription
+ * @param namesp1:CampaignBidsInfo $params
  * @return xsd:int
  */
 public function DeleteBanners($params)
@@ -168,6 +181,7 @@ public function DeleteBanners($params)
 
 /**
  * :operationDescription
+ * @param namesp1:CampaignIDInfo $params
  * @return xsd:int
  */
 public function StopCampaign($params)
@@ -180,6 +194,7 @@ public function StopCampaign($params)
 
 /**
  * :operationDescription
+ * @param namesp1:CampaignIDInfo $params
  * @return xsd:int
  */
 public function DeleteCampaign($params)
@@ -192,6 +207,7 @@ public function DeleteCampaign($params)
 
 /**
  * :operationDescription
+ * @param namesp1:CampaignIDInfo $params
  * @return xsd:int
  */
 public function UnArchiveCampaign($params)
@@ -204,6 +220,7 @@ public function UnArchiveCampaign($params)
 
 /**
  * :operationDescription
+ * @param namesp1:CampaignIDInfo $params
  * @return xsd:int
  */
 public function ArchiveCampaign($params)
@@ -216,6 +233,7 @@ public function ArchiveCampaign($params)
 
 /**
  * :operationDescription
+ * @param namesp1:CampaignIDInfo $params
  * @return xsd:int
  */
 public function ResumeCampaign($params)
@@ -228,6 +246,7 @@ public function ResumeCampaign($params)
 
 /**
  * :operationDescription
+
  * @return namesp1:ArrayOfReportInfo
  */
 public function GetReportList()
@@ -240,6 +259,7 @@ public function GetReportList()
 
 /**
  * :operationDescription
+ * @param namesp1:ArrayOfPingAPI_XInfo $params
  * @return namesp1:ArrayOfPingAPI_XInfo
  */
 public function PingAPI_X($params)
@@ -252,6 +272,7 @@ public function PingAPI_X($params)
 
 /**
  * :operationDescription
+
  * @return xsd:int
  */
 public function PingAPI()
@@ -264,6 +285,7 @@ public function PingAPI()
 
 /**
  * :operationDescription
+ * @param namesp1:ArrayOfString $params
  * @return namesp1:ArrayOfClientsUnitInfo
  */
 public function GetClientsUnits($params)
@@ -276,6 +298,7 @@ public function GetClientsUnits($params)
 
 /**
  * :operationDescription
+ * @param namesp1:ArrayOfString $params
  * @return namesp1:ArrayOfClientInfo
  */
 public function GetClientInfo($params)
@@ -288,6 +311,7 @@ public function GetClientInfo($params)
 
 /**
  * :operationDescription
+ * @param namesp1:GetBannersInfo $params
  * @return namesp1:ArrayOfBannerInfo
  */
 public function GetBanners($params)
@@ -300,6 +324,7 @@ public function GetBanners($params)
 
 /**
  * :operationDescription
+ * @param namesp1:ArrayOfString $params
  * @return namesp1:ArrayOfShortCampaignInfo
  */
 public function GetCampaignsList($params)
@@ -312,6 +337,7 @@ public function GetCampaignsList($params)
 
 /**
  * :operationDescription
+ * @param namesp1:GetCampaignsInfo $params
  * @return namesp1:ArrayOfShortCampaignInfo
  */
 public function GetCampaignsListFilter($params)
@@ -324,6 +350,7 @@ public function GetCampaignsListFilter($params)
 
 /**
  * :operationDescription
+ * @param namesp1:ArrayOfInteger $params
  * @return namesp1:ArrayOfCampaignBalanceInfo
  */
 public function GetBalance($params)
@@ -336,6 +363,7 @@ public function GetBalance($params)
 
 /**
  * :operationDescription
+ * @param namesp1:ArrayOfInteger $params
  * @return namesp1:ArrayOfBannerPhraseInfo
  */
 public function GetBannerPhrases($params)
@@ -348,6 +376,7 @@ public function GetBannerPhrases($params)
 
 /**
  * :operationDescription
+ * @param namesp1:BannerPhrasesFilterRequestInfo $params
  * @return namesp1:ArrayOfBannerPhraseInfo
  */
 public function GetBannerPhrasesFilter($params)
@@ -360,6 +389,7 @@ public function GetBannerPhrasesFilter($params)
 
 /**
  * :operationDescription
+
  * @return namesp1:ArrayOfRegionInfo
  */
 public function GetRegions()
@@ -372,6 +402,7 @@ public function GetRegions()
 
 /**
  * :operationDescription
+ * @param namesp1:NewReportInfo $params
  * @return xsd:int
  */
 public function CreateNewReport($params)
@@ -384,6 +415,7 @@ public function CreateNewReport($params)
 
 /**
  * :operationDescription
+ * @param namesp1:NewForecastInfo $params
  * @return xsd:int
  */
 public function CreateNewForecast($params)
@@ -396,6 +428,7 @@ public function CreateNewForecast($params)
 
 /**
  * :operationDescription
+ * @param xsd:int $params
  * @return namesp1:GetForecastInfo
  */
 public function GetForecast($params)
@@ -408,6 +441,7 @@ public function GetForecast($params)
 
 /**
  * :operationDescription
+
  * @return namesp1:ArrayOfRubricInfo
  */
 public function GetRubrics()
@@ -420,6 +454,7 @@ public function GetRubrics()
 
 /**
  * :operationDescription
+
  * @return namesp1:ArrayOfTimeZoneInfo
  */
 public function GetTimeZones()
@@ -432,6 +467,7 @@ public function GetTimeZones()
 
 /**
  * :operationDescription
+
  * @return namesp1:ArrayOfForecastStatusInfo
  */
 public function GetForecastList()
@@ -444,6 +480,7 @@ public function GetForecastList()
 
 /**
  * :operationDescription
+ * @param namesp1:ArrayOfPhrasePriceInfo $params
  * @return xsd:int
  */
 public function UpdatePrices($params)
@@ -456,6 +493,7 @@ public function UpdatePrices($params)
 
 /**
  * :operationDescription
+ * @param namesp1:CampaignInfo $params
  * @return xsd:int
  */
 public function CreateOrUpdateCampaign($params)
@@ -468,6 +506,7 @@ public function CreateOrUpdateCampaign($params)
 
 /**
  * :operationDescription
+ * @param namesp1:ArrayOfBannerInfo $params
  * @return namesp1:ArrayOfInteger
  */
 public function CreateOrUpdateBanners($params)
@@ -480,6 +519,7 @@ public function CreateOrUpdateBanners($params)
 
 /**
  * :operationDescription
+
  * @return namesp1:ArrayOfVersionDesc
  */
 public function GetAvailableVersions()
@@ -492,6 +532,7 @@ public function GetAvailableVersions()
 
 /**
  * :operationDescription
+ * @param namesp1:KeywordsSuggestionInfo $params
  * @return namesp1:ArrayOfString
  */
 public function GetKeywordsSuggestion($params)
@@ -504,6 +545,7 @@ public function GetKeywordsSuggestion($params)
 
 /**
  * :operationDescription
+ * @param namesp1:CreateNewSubclientRequest $params
  * @return namesp1:CreateNewSubclientResponse
  */
 public function CreateNewSubclient($params)
@@ -516,6 +558,7 @@ public function CreateNewSubclient($params)
 
 /**
  * :operationDescription
+ * @param namesp1:NewWordstatReportInfo $params
  * @return xsd:int
  */
 public function CreateNewWordstatReport($params)
@@ -528,6 +571,7 @@ public function CreateNewWordstatReport($params)
 
 /**
  * :operationDescription
+
  * @return namesp1:ArrayOfWordstatReportStatusInfo
  */
 public function GetWordstatReportList()
@@ -540,6 +584,7 @@ public function GetWordstatReportList()
 
 /**
  * :operationDescription
+ * @param xsd:int $params
  * @return namesp1:ArrayOfWordstatReportInfo
  */
 public function GetWordstatReport($params)
@@ -552,6 +597,7 @@ public function GetWordstatReport($params)
 
 /**
  * :operationDescription
+ * @param namesp1:CampaignIDInfo $params
  * @return namesp1:ArrayOfStatGoalInfo
  */
 public function GetStatGoals($params)
