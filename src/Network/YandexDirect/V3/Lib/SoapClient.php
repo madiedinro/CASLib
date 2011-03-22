@@ -10,8 +10,7 @@
 
 namespace AdvancedContextLib\Network\YandexDirect\V3\Lib;
 
-use AdvancedContextLib\Network\YandexDirect\Base\Lib\SoapClient as BaseSoapClient;
-
-class SoapClient extends BaseSoapClient{
+abstract class SoapClient extends \AdvancedContextLib\Network\YandexDirect\Base\Lib\SoapClient
+{
 
 }

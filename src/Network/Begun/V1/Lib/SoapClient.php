@@ -10,9 +10,7 @@
 
 namespace AdvancedContextLib\Network\Begun\V1\Lib;
 
-use AdvancedContextLib\Network\Begun\Base\Lib\SoapClient as BaseSoapClient;
-
-class SoapClient extends BaseSoapClient
+abstract class SoapClient extends \AdvancedContextLib\Network\Begun\Base\Lib\SoapClient
 {
 
 }

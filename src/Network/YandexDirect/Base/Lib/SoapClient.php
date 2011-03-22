@@ -10,14 +10,12 @@
 
 namespace AdvancedContextLib\Network\YandexDirect\Base\Lib;
 
-use AdvancedContextLib\Lib\SoapClient as BaseSoapClient;
-
-class SoapClient extends BaseSoapClient
+abstract class SoapClient extends \AdvancedContextLib\Lib\SoapClient
 {
 	public function __construct($options)
 	{
 		parent::__construct(
-			$this->wsdl,
+			$this->getWsdl(),
 			array(
 				'trace' => true,
 				'classmap' => $options['classmap'],

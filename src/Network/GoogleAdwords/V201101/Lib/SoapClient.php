@@ -10,8 +10,8 @@
 
 namespace AdvancedContextLib\Network\GoogleAdwords\V201101\Lib;
 
-use AdvancedContextLib\Network\GoogleAdwords\Base\Lib\GoogleAdwordsBaseSoapClient;
 
-class GoogleAdwordsSoapClient extends GoogleAdwordsBaseSoapClient{
+abstract class SoapClient extends \AdvancedContextLib\Network\GoogleAdwords\Base\Lib\SoapClient
+{
 	
 }

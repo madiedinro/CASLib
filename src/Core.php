@@ -11,7 +11,7 @@ namespace AdvancedContextLib;
 
 use AdvancedContextLib\Network\Begun\Base\Lib\User as BegunUser;
 use AdvancedContextLib\Network\YandexDirect\Base\Lib\User as YandexDirectUser;
-
+use AdvancedContextLib\Network\GoogleAdwords\Base\Lib\User as GoogleAdwordsUser;
 
 class Core {
 
@@ -67,7 +67,7 @@ class Core {
 
 	/**
 	 * @param $name
-	 * @return AdvancedContextLib\Network\Begun\Base\Lib\User
+	 * @return \AdvancedContextLib\Network\Begun\Base\Lib\User
 	 */
 	public function getBegun($name = null)
 	{
@@ -82,7 +82,7 @@ class Core {
 
 	/**
 	 * @param $name
-	 * @return AdvancedContextLib\Network\YandexDirect\Base\Lib\User
+	 * @return \AdvancedContextLib\Network\YandexDirect\Base\Lib\User
 	 */
 	public function getYandexDirect($name = null)
 	{
@@ -93,6 +93,22 @@ class Core {
 
 		$options = $this->getConfiguration($name, self::YANDEX_DIRECT);
 		return new YandexDirectUser($options);
+	}
+
+
+	/**
+	 * @param $name
+	 * @return \AdvancedContextLib\Network\GoogleAdwords\Base\Lib\User
+	 */
+	public function getGoogleAdwords($name = null)
+	{
+		if($name == null)
+		{
+			$name = $this->getFirstConfigurationName(self::GOOGLE_ADWORDS);
+		}
+		
+		$options = $this->getConfiguration($name, self::GOOGLE_ADWORDS);
+		return new GoogleAdwordsUser($options);
 	}
 
 

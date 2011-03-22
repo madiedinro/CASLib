@@ -10,7 +10,10 @@
 
 namespace AdvancedContextLib\Lib;
 
-class SoapClient extends \SoapClient
+abstract class SoapClient extends \SoapClient
 {
-	protected $wsdl = '';
+	protected $options = array();
+	
+	abstract public function getNamespace();
+	abstract public function getWsdl();
 }
