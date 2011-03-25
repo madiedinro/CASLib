@@ -59,7 +59,7 @@ class AuthToken
 	private $captchaToken;
 	private $captchaResponse;
 
-	public function __construct($email, $password, $service = 'adwords', $source = 'test', $accountType = 'GOOGLE', $server = 'https://www.google.com', $captchaToken = null, $captchaResponse = null)
+	public function __construct($email = null, $password = null, $service = 'adwords', $source = 'test', $accountType = 'GOOGLE', $server = 'https://www.google.com', $captchaToken = null, $captchaResponse = null)
 	{
 		$this->email = $email;
 		$this->password = $password;
