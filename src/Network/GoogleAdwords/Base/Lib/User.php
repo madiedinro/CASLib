@@ -15,7 +15,9 @@ class User
 	
 	public function __construct($options)
 	{
-		$authTokenGetter = new \AdvancedContextLib\Network\GoogleAdwords\Base\Lib\AuthToken($options['login'], $options['password']);
+		$authTokenGetter = new \AdvancedContextLib\Network\GoogleAdwords\Base\Lib\AuthToken();
+		$authTokenGetter->setEmailAndPassword($options['login'], $options['password']);
+		
 		$options['authToken'] = $authTokenGetter->getAuthToken();
 		
 		$this->options = $options;

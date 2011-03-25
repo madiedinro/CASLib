@@ -1,230 +1,197 @@
 <?php
 
-/**
- * A basic CURL wrapper
- *
- * See the README for documentation/examples or http://php.net/curl for more information about the libcurl extension for PHP
- *
- * @package curl
- * @author Sean Huber <shuber@huberry.com>
- *
- * @author extended by Dmitry Rodin
- *
-**/
 
 namespace AdvancedContextLib\Lib;
 
-class CurlWrapper {
 
-    /**
-     * The file to read and write cookies to for requests
-     *
-     * @var string
-    **/
-    public $cookie_file;
+class CurlWrapperException extends \Exception
+{
+	public function __construct($message)
+	{
+		parent::__construct('CURL Fail: ' . $message);
+	}
+}
 
-    /**
-     * Determines whether or not requests should follow redirects
-     *
-     * @var boolean
-    **/
-    public $follow_redirects = true;
-
-    /**
-     * An associative array of headers to send along with requests
-     *
-     * @var array
-    **/
-    public $headers = array();
-
-    /**
-     * An associative array of CURLOPT options to send along with requests
-     *
-     * @var array
-    **/
-    public $options = array();
-
-    /**
-     * The referer header to send along with requests
-     *
-     * @var string
-    **/
-    public $referer;
-
-    /**
-     * The user agent to send along with requests
-     *
-     * @var string
-    **/
-    public $user_agent;
-
-    /**
-     * Stores an error string for the last request if one occurred
-     *
-     * @var string
-     * @access protected
-    **/
-    protected $error = '';
-
+class CurlWrapper
+{
 	/**
+	 * Массив дополнительных опций курла
+	 *
+	 * @var string[]
+	 * */
+	public $options = array();
+	
+	/**
+	 * Юзерарген
 	 *
 	 * @var string
 	 */
+
+	public $user_agent;
+	
+	/**
+	 * Ошибка
+	 *
+	 * @var string
+	 */
+	protected $error = null;
+	
+	/**
+	 * Последний http код
+	 * 
+	 * @var string
+	 */
 	protected $httpCode = null;
+	
+	/**
+	 * Ресурс курла
+	 *
+	 * @var resource
+	 * @access protected
+	 * */
+	protected $ch;
 
-    /**
-     * Stores resource handle for the current CURL request
-     *
-     * @var resource
-     * @access protected
-    **/
-    protected $request;
-
-    /**
-     * Initializes a Curl object
-     *
-     * Sets the $cookie_file to "curl_cookie.txt" in the current directory
-     * Also sets the $user_agent to $_SERVER['HTTP_USER_AGENT'] if it exists, 'Curl/PHP '.PHP_VERSION.' (http://github.com/shuber/curl)' otherwise
-    **/
-    function __construct() {
-        $this->user_agent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : 'Curl/PHP '.PHP_VERSION.' (http://github.com/shuber/curl)';
-    }
-
-    /**
-     * Returns the error string of the current request if one occurred
-     *
-     * @return string
-    **/
-    function error()
+	/**
+	 * Инициализация враппера
+	 */
+	function __construct()
 	{
-        return $this->error;
-    }
+		$this->user_agent = 'CURL';
+	}
 
+	/**
+	 * Возвращает последнюю ошибку
+	 *
+	 * @return string
+	 */
+	function error()
+	{
+		return $this->error;
+	}
 
+	/**
+	 * Возвращает последний http код
+	 * 
+	 * @return <type>
+	 */
 	function httpCode()
 	{
 		return $this->httpCode;
 	}
 
-    /**
-     * Makes an HTTP GET request to the specified $url with an optional array or string of $vars
-     *
-     * Returns a CurlResponse object if the request was successful, false otherwise
-     *
-     * @param string $url
-     * @param array|string $vars
-     * @return CurlResponse
-    **/
-    function get($url, $vars = array()) {
-        if (!empty($vars)) {
-            $url .= (stripos($url, '?') !== false) ? '&' : '?';
-            $url .= (is_string($vars)) ? $vars : http_build_query($vars, '', '&');
-        }
-        return $this->request('GET', $url);
-    }
-
-
-    /**
-     * Makes an HTTP POST request to the specified $url with an optional array or string of $vars
-     *
-     * @param string $url
-     * @param array|string $vars
-     * @return CurlResponse|boolean
-    **/
-    function post($url, $vars = array()) {
-        return $this->request('POST', $url, $vars);
-    }
-
-    /**
-     * Makes an HTTP request of the specified $method to a $url with an optional array or string of $vars
-     *
-     * Returns a CurlResponse object if the request was successful, false otherwise
-     *
-     * @param string $method
-     * @param string $url
-     * @param array|string $vars
-     * @return CurlResponse|boolean
-    **/
-    function request($method, $url, $vars = array()) {
-        $this->error = '';
-        $this->request = curl_init();
-        if (is_array($vars)) $vars = http_build_query($vars, '', '&');
-
-        $this->set_request_method($method);
-        $this->set_request_options($url, $vars);
-        $this->set_request_headers();
-
-        $response = curl_exec($this->request);
-		
-		$this->httpCode = curl_getinfo($this->request, CURLINFO_HTTP_CODE);
-        if (!$response)
+	/**
+	 * Makes an HTTP GET request to the specified $url with an optional array or string of $vars
+	 *
+	 * Returns a CurlResponse object if the request was successful, false otherwise
+	 *
+	 * @param string $url
+	 * @param array|string $vars
+	 * @return CurlResponse
+	 * */
+	function get($url, $vars = array())
+	{
+		if (!empty($vars))
 		{
-            $this->error = curl_errno($this->request).' - '.curl_error($this->request);
-        }
+			$url .= ( stripos($url, '?') !== false) ? '&' : '?';
+			$url .= ( is_string($vars)) ? $vars : http_build_query($vars, '', '&');
+		}
 
-        curl_close($this->request);
+		return $this->request('GET', $url);
+	}
 
-        return $response;
-    }
+	/**
+	 * Makes an HTTP POST request to the specified $url with an optional array or string of $vars
+	 *
+	 * @param string $url
+	 * @param array|string $vars
+	 * @return CurlResponse|boolean
+	 * */
+	function post($url, $vars = array())
+	{
+		return $this->request('POST', $url, $vars);
+	}
 
-    /**
-     * Formats and adds custom headers to the current request
-     *
-     * @return void
-     * @access protected
-    **/
-    protected function set_request_headers() {
-        $headers = array();
-        foreach ($this->headers as $key => $value) {
-            $headers[] = $key.': '.$value;
-        }
-        curl_setopt($this->request, CURLOPT_HTTPHEADER, $headers);
-    }
+	/**
+	 * Makes an HTTP request of the specified $method to a $url with an optional array or string of $vars
+	 *
+	 * Returns a CurlResponse object if the request was successful, false otherwise
+	 *
+	 * @param string $method
+	 * @param string $url
+	 * @param array|string $vars
+	 * @return CurlResponse|boolean
+	 * */
+	function request($method, $url, $vars = array())
+	{
+		$this->error = null;
+		$this->ch = \curl_init();
+			
+		if (\is_array($vars))
+		{
+			$vars = \http_build_query($vars, '', '&');
+		}
 
-    /**
-     * Set the associated CURL options for a request method
-     *
-     * @param string $method
-     * @return void
-     * @access protected
-    **/
-    protected function set_request_method($method) {
-        switch (strtoupper($method)) {
-            case 'GET':
-                curl_setopt($this->request, CURLOPT_HTTPGET, true);
-                break;
-            case 'POST':
-                curl_setopt($this->request, CURLOPT_POST, true);
-                break;
-            default:
-                curl_setopt($this->request, CURLOPT_CUSTOMREQUEST, $method);
-        }
-    }
+		switch (\strtoupper($method))
+		{
+			case 'GET':
+				curl_setopt($this->ch, CURLOPT_HTTPGET, true);
+				break;
+			case 'POST':
+				curl_setopt($this->ch, CURLOPT_POST, true);
+				break;
+			default:
+				curl_setopt($this->ch, CURLOPT_CUSTOMREQUEST, \strtoupper($method));
+		}
+		
+		$this->set_request_options($url, $vars);
 
-    /**
-     * Sets the CURLOPT options for the current request
-     *
-     * @param string $url
-     * @param string $vars
-     * @return void
-     * @access protected
-    **/
-    protected function set_request_options($url, $vars) {
-        curl_setopt($this->request, CURLOPT_URL, $url);
-        if (!empty($vars)) curl_setopt($this->request, CURLOPT_POSTFIELDS, $vars);
+		$response = curl_exec($this->ch);
 
-        # Set some default CURL options
-        curl_setopt($this->request, CURLOPT_HEADER, true);
-        curl_setopt($this->request, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($this->request, CURLOPT_USERAGENT, $this->user_agent);
+		$this->httpCode = curl_getinfo($this->ch, CURLINFO_HTTP_CODE);
+		$this->error = curl_errno($this->ch) . ' - ' . curl_error($this->ch);
+		curl_close($this->ch);
+		
+		if (!$response)
+		{
+			throw new CurlWrapperException($this->error);
+		}
+		
+		return $response;
+	}
 
-        if ($this->follow_redirects) curl_setopt($this->request, CURLOPT_FOLLOWLOCATION, true);
-        if ($this->referer) curl_setopt($this->request, CURLOPT_REFERER, $this->referer);
+	protected function getOptions()
+	{
+		return $this->options;
+	}
 
-        # Set any custom CURL options
-        foreach ($this->options as $option => $value) {
-            curl_setopt($this->request, constant('CURLOPT_'.str_replace('CURLOPT_', '', strtoupper($option))), $value);
-        }
-    }
+	
+	/**
+	 * Sets the CURLOPT options for the current request
+	 *
+	 * @param string $url
+	 * @param string $vars
+	 * @return void
+	 * @access protected
+	 * */
+	protected function set_request_options($url, $vars)
+	{
+		curl_setopt($this->ch, CURLOPT_URL, $url);
+		if (!empty($vars))
+		{
+			curl_setopt($this->ch, CURLOPT_POSTFIELDS, $vars);
+		}
+
+		# Set some default CURL options
+		curl_setopt($this->ch, CURLOPT_HEADER, true);
+		curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($this->ch, CURLOPT_USERAGENT, $this->user_agent);
+		curl_setopt($this->ch, CURLOPT_FOLLOWLOCATION, true);
+
+		# Set any custom CURL options
+		foreach ($this->getOptions() as $option => $value)
+		{
+			curl_setopt($this->ch, constant('CURLOPT_' . str_replace('CURLOPT_', '', strtoupper($option))), $value);
+		}
+	}
 
 }

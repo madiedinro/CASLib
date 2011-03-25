@@ -3,6 +3,9 @@
 namespace AdvancedContextLib\Network\GoogleAdwords\Base\Lib;
 
 
+use AdvancedContextLib\Lib\CurlWrapper;
+use AdvancedContextLib\Lib\CurlWrapperException;
+
 class AuthTokenException extends \Exception
 {
 
@@ -10,16 +13,18 @@ class AuthTokenException extends \Exception
 	private $url;
 	private $captchaToken;
 	private $captchaUrl;
-	
+
 	public function __construct($error, $url = null, $captchaToken = null, $captchaUrl = null)
 	{
 		$this->error = $error;
 		$this->url = $url;
 		$this->captchaToken = $captchaToken;
 		$this->captchaUrl = $captchaUrl;
+
+
 		parent::__construct('Failed to get authToken. Reason: ' . $error);
 	}
-	
+
 	public function getError()
 	{
 		return $this->error;
@@ -34,7 +39,7 @@ class AuthTokenException extends \Exception
 	{
 		return $this->captchaToken;
 	}
-	
+
 	public function getCaptchaUrl()
 	{
 		return $this->captchaUrl;
@@ -53,7 +58,7 @@ class AuthToken
 	private $server;
 	private $captchaToken;
 	private $captchaResponse;
-	
+
 	public function __construct($email, $password, $service = 'adwords', $source = 'test', $accountType = 'GOOGLE', $server = 'https://www.google.com', $captchaToken = null, $captchaResponse = null)
 	{
 		$this->email = $email;
@@ -67,6 +72,18 @@ class AuthToken
 	}
 
 	/**
+	 * Установить логин и пароль
+	 * 
+	 * @param string $email
+	 * @param string $password
+	 */
+	public function setEmailAndPassword($email, $password)
+	{
+		$this->email = $email;
+		$this->password = $password;
+	}
+
+	/**
 	 * Получаем токен
 	 * 
 	 * @return <type>
@@ -75,22 +92,19 @@ class AuthToken
 	{
 		$response = $this->login();
 		$fields = $this->parseResponse($response);
-		
+
 		if (array_key_exists('Error', $fields))
 		{
-			$error = $fields['Error'] . (isset($fields['Info']) ? ': '.$fields['Info'] : '');
+			$error = $fields['Error'] . (isset($fields['Info']) ? ': ' . $fields['Info'] : '');
 			$url = isset($fields['Url']) ? $fields['Url'] : null;
 			$captchaToken = isset($fields['CaptchaToken']) ? $fields['CaptchaToken'] : null;
 			$captchaUrl = isset($fields['CaptchaUrl']) ? $fields['CaptchaUrl'] : null;
-			
-			throw new AuthTokenException($error, $url, $captchaToken, $captchaUrl);
 
-		}
-		else if (!array_key_exists('Auth', $fields))
+			throw new AuthTokenException($error, $url, $captchaToken, $captchaUrl);
+		} else if (!array_key_exists('Auth', $fields))
 		{
 			throw new AuthTokenException('Unknown');
-		}
-		else
+		} else
 		{
 			return $fields['Auth'];
 		}
@@ -112,22 +126,25 @@ class AuthToken
 			'logintoken' => $this->captchaToken,
 			'logincaptcha' => $this->captchaResponse
 		);
-		
-		$curl = new \AdvancedContextLib\Lib\CurlWrapper();
-		$response = $curl->post($postUrl, $postVars);
-		
-		$error = $curl->error();
-		$httpCode = $curl->httpCode();
-		
-		if (!empty($error))
+
+		$curl = new CurlWrapper();
+
+		try
 		{
-			throw new AuthTokenException($error);
+			$response = $curl->post($postUrl, $postVars);
+
+			$httpCode = $curl->httpCode();
+
+			if($httpCode != 200 && $httpCode != 403)
+			{
+				throw new AuthTokenException($httpCode);
+			}
+
 		}
-		else if ($httpCode != 200 && $httpCode != 403)
+		catch (CurlWrapperException $exc)
 		{
-			throw new AuthTokenException($httpCode);
+			throw new AuthTokenException($exc->getMessage());
 		}
-		
 		
 		return $response;
 	}
@@ -148,4 +165,5 @@ class AuthToken
 		}
 		return $result;
 	}
+
 }
