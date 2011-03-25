@@ -40,6 +40,11 @@ class Autoloader
 	{
 		$this->map = $map;
 	}
+	
+	public function addToMap($ns, $path)
+	{
+		$this->map[$ns] = $path;
+	}
 
 	/**
 	 * @static

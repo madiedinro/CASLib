@@ -87,21 +87,7 @@ class CurlWrapper {
      * Also sets the $user_agent to $_SERVER['HTTP_USER_AGENT'] if it exists, 'Curl/PHP '.PHP_VERSION.' (http://github.com/shuber/curl)' otherwise
     **/
     function __construct() {
-        //$this->cookie_file = dirname(__FILE__).DIRECTORY_SEPARATOR.'curl_cookie.txt';
         $this->user_agent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : 'Curl/PHP '.PHP_VERSION.' (http://github.com/shuber/curl)';
-    }
-
-    /**
-     * Makes an HTTP DELETE request to the specified $url with an optional array or string of $vars
-     *
-     * Returns a CurlResponse object if the request was successful, false otherwise
-     *
-     * @param string $url
-     * @param array|string $vars
-     * @return CurlResponse object
-    **/
-    function delete($url, $vars = array()) {
-        return $this->request('DELETE', $url, $vars);
     }
 
     /**
@@ -109,7 +95,8 @@ class CurlWrapper {
      *
      * @return string
     **/
-    function error() {
+    function error()
+	{
         return $this->error;
     }
 
@@ -136,18 +123,6 @@ class CurlWrapper {
         return $this->request('GET', $url);
     }
 
-    /**
-     * Makes an HTTP HEAD request to the specified $url with an optional array or string of $vars
-     *
-     * Returns a CurlResponse object if the request was successful, false otherwise
-     *
-     * @param string $url
-     * @param array|string $vars
-     * @return CurlResponse
-    **/
-    function head($url, $vars = array()) {
-        return $this->request('HEAD', $url, $vars);
-    }
 
     /**
      * Makes an HTTP POST request to the specified $url with an optional array or string of $vars
@@ -158,19 +133,6 @@ class CurlWrapper {
     **/
     function post($url, $vars = array()) {
         return $this->request('POST', $url, $vars);
-    }
-
-    /**
-     * Makes an HTTP PUT request to the specified $url with an optional array or string of $vars
-     *
-     * Returns a CurlResponse object if the request was successful, false otherwise
-     *
-     * @param string $url
-     * @param array|string $vars
-     * @return CurlResponse|boolean
-    **/
-    function put($url, $vars = array()) {
-        return $this->request('PUT', $url, $vars);
     }
 
     /**
@@ -228,9 +190,6 @@ class CurlWrapper {
     **/
     protected function set_request_method($method) {
         switch (strtoupper($method)) {
-            case 'HEAD':
-                curl_setopt($this->request, CURLOPT_NOBODY, true);
-                break;
             case 'GET':
                 curl_setopt($this->request, CURLOPT_HTTPGET, true);
                 break;
@@ -258,10 +217,7 @@ class CurlWrapper {
         curl_setopt($this->request, CURLOPT_HEADER, true);
         curl_setopt($this->request, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($this->request, CURLOPT_USERAGENT, $this->user_agent);
-        if ($this->cookie_file) {
-            curl_setopt($this->request, CURLOPT_COOKIEFILE, $this->cookie_file);
-            curl_setopt($this->request, CURLOPT_COOKIEJAR, $this->cookie_file);
-        }
+
         if ($this->follow_redirects) curl_setopt($this->request, CURLOPT_FOLLOWLOCATION, true);
         if ($this->referer) curl_setopt($this->request, CURLOPT_REFERER, $this->referer);
 
