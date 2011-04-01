@@ -31,4 +31,13 @@ class User
 	{
 		return new \AdvancedContextLib\Network\GoogleAdwords\V201101\Service\InfoService($this->options);
 	}
+
+	/**
+	 *
+	 * @return \AdvancedContextLib\Network\GoogleAdwords\V13\Service\AccountService 
+	 */
+	public function getAccountService13()
+	{
+		return new \AdvancedContextLib\Network\GoogleAdwords\V13\Service\AccountService($this->options);
+	}
 }

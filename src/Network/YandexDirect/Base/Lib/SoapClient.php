@@ -20,8 +20,20 @@ abstract class SoapClient extends \AdvancedContextLib\Lib\SoapClient
 				'trace' => true,
 				'classmap' => $options['classmap'],
 				'local_cert' => $options['local_cert'],
+				'cache_wsdl' => \WSDL_CACHE_NONE
 			)
 		);
+	}
 
+
+	public function __doRequest($request, $location, $action, $version, $one_way = 0)
+	{
+		$req = parent::__doRequest($request, $location, $action, $version, $one_way);
+
+		$xml = new \SimpleXMLElement($req);
+		$nss = \array_flip($xml->getDocNamespaces(true));
+		$req = \str_replace($nss['http://namespaces.soaplite.com/perl'].':', $nss['API'].':', $req);
+
+		return $req;
 	}
 }
