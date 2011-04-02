@@ -1,3 +1,24 @@
-common:
-  userAgent: "CASLib 0.1.0 (PHP)"
-  
+# Примеры конфигураций сервисов
+
+connections:
+
+# Пример конфигурации begun
+#  myBegun:
+#    network: Begun
+#    version: v1
+#    http_login: login # Логин к WSDL
+#    http_password: pwd # Пароль к WSDL
+#    login: login # Логин аккаунта
+#    password: pwd # Пароль аккаунта
+
+#  myYandex:
+#    network: YandexDirect
+#    version: v3
+#    local_cert: "pathToCert" # Путь к кслеинным сертификату и приватному ключу
+
+#  myGoogle:
+#    network: GoogleAdwords
+#    version: v201101
+#    login: login # Логин аккаунта
+#    password: password # Пароль аккаунта
+#    developerToken: "developerToken" # Токен разрабочика (берется в интерфейсе adwords)

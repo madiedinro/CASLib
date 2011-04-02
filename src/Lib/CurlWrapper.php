@@ -50,13 +50,13 @@ class CurlWrapper
 	 * @access protected
 	 * */
 	protected $ch;
-
+	
 	/**
 	 * Инициализация враппера
 	 */
-	function __construct()
+	function __construct($options = array())
 	{
-		$this->user_agent = 'CURL';
+		$this->options = $options;
 	}
 
 	/**
@@ -143,7 +143,7 @@ class CurlWrapper
 				curl_setopt($this->ch, CURLOPT_CUSTOMREQUEST, \strtoupper($method));
 		}
 		
-		$this->set_request_options($url, $vars);
+		$this->setRequestOptions($url, $vars);
 
 		$response = curl_exec($this->ch);
 
@@ -159,39 +159,26 @@ class CurlWrapper
 		return $response;
 	}
 
-	protected function getOptions()
-	{
-		return $this->options;
-	}
-
 	
 	/**
-	 * Sets the CURLOPT options for the current request
-	 *
+	 * Устанавливает дополнительные опции курла
+	 * 
 	 * @param string $url
-	 * @param string $vars
-	 * @return void
-	 * @access protected
-	 * */
-	protected function set_request_options($url, $vars)
+	 * @param string[] $vars
+	 */
+	protected function setRequestOptions($url, $vars)
 	{
 		curl_setopt($this->ch, CURLOPT_URL, $url);
 		if (!empty($vars))
 		{
 			curl_setopt($this->ch, CURLOPT_POSTFIELDS, $vars);
 		}
-
-		# Set some default CURL options
-		curl_setopt($this->ch, CURLOPT_HEADER, true);
+		
+		curl_setopt($this->ch, CURLOPT_HEADER, false);
 		curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($this->ch, CURLOPT_USERAGENT, $this->user_agent);
+		curl_setopt($this->ch, CURLOPT_USERAGENT, $this->options['userAgent']);
 		curl_setopt($this->ch, CURLOPT_FOLLOWLOCATION, true);
-
-		# Set any custom CURL options
-		foreach ($this->getOptions() as $option => $value)
-		{
-			curl_setopt($this->ch, constant('CURLOPT_' . str_replace('CURLOPT_', '', strtoupper($option))), $value);
-		}
+		curl_setopt($this->ch, CURLOPT_ENCODING, 'gzip,deflate');
 	}
 
 }

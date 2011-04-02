@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by JetBrains PhpStorm.
  * User: dmitryrodin
@@ -13,17 +14,19 @@ use AdvancedContextLib\Network\Begun\Base\Lib\User as BegunUser;
 use AdvancedContextLib\Network\YandexDirect\Base\Lib\User as YandexDirectUser;
 use AdvancedContextLib\Network\GoogleAdwords\Base\Lib\User as GoogleAdwordsUser;
 
-class Core {
-
+class Core
+{
 	const BEGUN = 'Begun';
 	const YANDEX_DIRECT = 'YandexDirect';
 	const GOOGLE_ADWORDS = 'GoogleAdwords';
-	
+
 	static $instance = null;
-
-	protected $configurations = array();
-
-	protected $parameters = array();
+	protected $parameters = array(
+		'common' => array(
+			'userAgent' => 'CASLib 0.1.0 (PHP)'
+		),
+		'connections' => array()
+	);
 
 	/**
 	 * @static
@@ -31,7 +34,7 @@ class Core {
 	 */
 	static function getInstance()
 	{
-		if(self::$instance === null)
+		if (self::$instance === null)
 		{
 			self::$instance = new self;
 		}
@@ -39,32 +42,31 @@ class Core {
 	}
 
 	protected function __construct()
-	{	}
-
-	public function addConfiguration($name, $network, $options)
 	{
-		$this->configurations[$network][$name] = $options;
-	}
-
-	protected function getFirstConfigurationName($network)
-	{
-		if(count($this->configurations[$network]))
-		{
-			return key($this->configurations[$network]);
-		}
-
 		
-		throw new \Exception('No configurations');
 	}
 
-	protected function getConfiguration($name, $network)
+	protected function getConfigurationNameForNetwork($network)
 	{
-		if(!isset($this->configurations[$network][$name]))
+		foreach ($this->parameters['connections'] as $connectionName => $connection)
 		{
-			throw new \Exception('Invalid configuration given');
+			if($connection['network'] == $network)
+			{
+				return $connectionName;
+			}
 		}
 
-		return $this->configurations[$network][$name];
+		throw new Exception('No configurations for selected network');
+	}
+
+	protected function getConfiguration($name)
+	{
+		if(isset($this->parameters['connections'][$name]))
+		{
+			return $this->mergeArrays($this->parameters['common'], $this->parameters['connections'][$name]);
+		}
+
+		throw new Exception('No configuration with name '.$name);
 	}
 
 	/**
@@ -73,12 +75,13 @@ class Core {
 	 */
 	public function getBegun($name = null)
 	{
-		if($name == null)
+		if ($name == null)
 		{
-			$name = $this->getFirstConfigurationName(self::BEGUN);
+			$name = $this->getConfigurationNameForNetwork(self::BEGUN);
 		}
-		
+
 		$options = $this->getConfiguration($name, self::BEGUN);
+		
 		return new BegunUser($options);
 	}
 
@@ -88,15 +91,14 @@ class Core {
 	 */
 	public function getYandexDirect($name = null)
 	{
-		if($name == null)
+		if ($name == null)
 		{
-			$name = $this->getFirstConfigurationName(self::YANDEX_DIRECT);
+			$name = $this->getConfigurationNameForNetwork(self::YANDEX_DIRECT);
 		}
 
 		$options = $this->getConfiguration($name, self::YANDEX_DIRECT);
 		return new YandexDirectUser($options);
 	}
-
 
 	/**
 	 * @param $name
@@ -104,13 +106,35 @@ class Core {
 	 */
 	public function getGoogleAdwords($name = null)
 	{
-		if($name == null)
+		if ($name == null)
 		{
-			$name = $this->getFirstConfigurationName(self::GOOGLE_ADWORDS);
+			$name = $this->getConfigurationNameForNetwork(self::GOOGLE_ADWORDS);
 		}
-		
+
 		$options = $this->getConfiguration($name, self::GOOGLE_ADWORDS);
 		return new GoogleAdwordsUser($options);
+	}
+
+	/**
+	 * Рекурсивно мерджит массивы
+	 * @param array $arr1
+	 * @param array $arr2
+	 * @return array
+	 */
+	protected function mergeArrays($arr1, $arr2)
+	{
+		foreach ($arr2 as $key => $value)
+		{
+			if (\is_array($arr1) && \array_key_exists($key, $arr1) && \is_array($value))
+			{
+				$arr1[$key] = $this->mergeArrays($arr1[$key], $arr2[$key]);
+			} else
+			{
+				$arr1[$key] = $value;
+			}
+		}
+
+		return $arr1;
 	}
 
 	/**
@@ -120,8 +144,12 @@ class Core {
 	 */
 	public function setParameters($parameters)
 	{
-		$this->parameters = $parameters;
+		$this->parameters = $this->mergeArrays($this->parameters, $parameters);
 	}
 
+	public function getParameters()
+	{
+		return $this->parameters;
+	}
 
 }

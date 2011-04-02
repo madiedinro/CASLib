@@ -17,9 +17,18 @@ class User
 	{
 		$this->options = $options;
 	}
-	
+
+	/**
+	 *
+	 * @return \AdvancedContextLib\Network\YandexDirect\V3\Service\CommonService
+	 */
 	public function getCommonService()
 	{
 		return new \AdvancedContextLib\Network\YandexDirect\V3\Service\CommonService($this->options);
+	}
+	
+	public function getCurl()
+	{
+		return new \AdvancedContextLib\Network\YandexDirect\Base\Lib\CurlWrapper($this->options);
 	}
 }
