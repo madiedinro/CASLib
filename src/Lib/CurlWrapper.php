@@ -8,7 +8,7 @@ class CurlWrapperException extends \Exception
 {
 	public function __construct($message)
 	{
-		parent::__construct('CURL Fail: ' . $message);
+		parent::__construct('CURL wrapper fail: ' . $message);
 	}
 }
 

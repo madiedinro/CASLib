@@ -1,0 +1,3 @@
+[submodule "vendor/Yaml"]
+	path = vendor/Yaml
+	url = git@github.com:madiedinro/yaml.git

@@ -23,6 +23,8 @@ class Core {
 
 	protected $configurations = array();
 
+	protected $parameters = array();
+
 	/**
 	 * @static
 	 * @return Core
@@ -109,6 +111,16 @@ class Core {
 		
 		$options = $this->getConfiguration($name, self::GOOGLE_ADWORDS);
 		return new GoogleAdwordsUser($options);
+	}
+
+	/**
+	 * Установка конфига
+	 * 
+	 * @param array $parameters
+	 */
+	public function setParameters($parameters)
+	{
+		$this->parameters = $parameters;
 	}
 
 
